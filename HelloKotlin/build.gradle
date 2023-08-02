@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id 'application'
 }
 
 group = 'org.example'
@@ -7,6 +8,21 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+mainClassName = 'game.GameKt'
+
+jar {
+    manifest {
+        attributes 'Main-Class':mainClassName
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            f -> f.isDirectory() ? f : zipTree(f)
+        }
+    }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+
 }
 
 dependencies {
